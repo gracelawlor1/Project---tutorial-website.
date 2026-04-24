@@ -1,0 +1,16 @@
+---
+title: "Tutorial: Overview and Rules"
+output:
+  html_document:
+    theme: cerulean
+---
+
+Hello students,
+
+This website contains the information for your tutorial on conditional independence and the local Markov property.
+You have each been allocated a group: 1, 2 or 3. You should click on the tab labelled with your group number and spend 30 minutes reading through the material.
+It is very important you don't go onto other websites or other groups' pages. Examiners will be walking around to ensure that people are remaining on the correct site page.
+
+This tutorial is designed to teach you more about modelling joint probability distributions. Go at your own pace and make sure you fully understand the information you are reading.
+
+Enjoy!

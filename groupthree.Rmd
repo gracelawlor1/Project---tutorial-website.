@@ -1,0 +1,192 @@
+---
+title: "Group 3"
+output:
+  html_document:
+    theme: cerulean
+    highlight: monochrome
+---
+<style>
+body {
+  background-color: #fff9c4;
+}
+</style>
+
+A decision maker wants to model the joint probability distribution of n discrete random variables
+$$
+X_1, X_2, \dots, X_n
+$$
+Let variable \( X_i \) have \(c_i\) possible outcomes. Then, the total number of joint outcomes that need to be modelled is:
+$$
+\prod_{i=1}^{n} c_i
+$$
+As \(n\) grows, the number of joint outcomes increases rapidly, making it unrealistic for the decision maker to model each outcome individually.
+To reduce complexity, we can determine conditional irrelevances using the local Markov property, which allow us to simplify the joint distribution.
+
+
+### Conditional irrelevance
+We say that a variable \(X\) is **conditionally irrelevant** to a set of variables \(Y\), given a set of variables \(Z\), if: 
+
+$$
+P(X\mid Y, Z) = P(X\mid Z)
+$$
+This is also written with the following notation:
+$$
+X \perp\!\!\!\perp Y \mid Z
+$$
+This means that once we know the values of \(Z\), knowing \(Y\) doesn't provide additional information about \(X\).
+By identifying conditional irrelevances between variables, we can reduce complexity by reducing the amount of outcomes we need to model.
+
+### Ordering the variables
+Let the variables directly influencing \(X_i\) be called the **parent variables** denoted as:
+$$
+Pa(X_i)
+$$
+We can order our random variables such that \(Pa(X_i)\) precede \(X_i\) in the ordering.
+
+For example, if the variables are ordered according to their subscripts:
+$$
+X_1 < X_2 < \dots < X_n
+$$
+Then:
+$$
+Pa(X_i)\subset \{X_1,\dots,X_{i-1}\}
+$$
+This topological ordering is useful when factorising the joint probability distribution of our variables.
+
+### The Local Markov Property
+We can construct our ordering to ensure the **local Markov property** holds:
+
+**Theorem (The local Markov property)**    
+Let $X_1,\dots, X_n$ be random variables with parent sets $Pa(X_i)$. 
+The local Markov property holds if, for all $i \in \{1,\dots,n\}$:
+$$
+P(X_i\mid X_1,\dots,X_{i-1})= P(X_i\mid Pa(X_i))
+$$
+This means that, given the parent nodes of $X_i$, all other preceding variables are conditionally irrelevant to $X_i$.
+
+### The Factorisation Theorem
+
+How does this help simplify the joint probability distribution?
+Let $X_1, \dots, X_n$ be ordered by their subscripts ($X_1 < X_2 < ... < X_n)$. Then, the joint probability distribution can be factorised as follows:
+$$
+P(X_1, \dots, X_n) = P(X_1) \prod_{i=2}^{n} P(X_i \mid X_1, \dots, X_{i-1})
+$$
+However, by the local Markov property, each $X_i$ is conditionally irrelevant to all preceding non-parent variables:
+$$
+P(X_i\mid X_1,\dots,X_{i-1})= P(X_i\mid Pa(X_i))
+$$
+Therefore, the joint distribution factorises as:
+$$
+P(\mathbf{X}) = \prod_{i=1}^{n} P(X_i \mid Pa(X_i))
+$$
+Instead of modelling the full joint distribution, we only need to model the smaller conditional distributions.
+
+Let $Q_i$ denote the subscripts of the variables in $Pa(X_i)$.
+Then, for each conditional distribution, we only need to model $\prod_{j\in Q_i} c_j$ parent configurations rather than $\prod_{j=1}^{i-1} c_j$, largely improving efficiency.
+
+### Example: The Asia network
+A doctor wants to determine whether a patient has dyspnoea. Consider the following variables:
+
+- **V**: Visited Asia
+- **S**: Smoker  
+- **T**: Tuberculosis  
+- **L**: Lung Cancer  
+- **B**: Bronchitis  
+- **TC**: Tuberculosis or Cancer  
+- **X**: Positive X-ray  
+- **D**: Dyspnoea  
+
+We can define the parents of each variable. These are typically provided by the decision maker:
+
+- $Pa(V)= Pa(S) = \{\}$
+- $Pa(T)= \{V\}$
+- $Pa(L)= \{S\}$
+- $Pa(B)= \{S\}$
+- $Pa(TC)= \{T,L\}$
+- $Pa(X)= \{TC\}$
+- $Pa(D)= \{B, TC\}$
+
+Note: A parent-child relationship doesn't necessarily indicate causation, but reflects a strong influence on the probability distribution. For example, not everyone who visits Asia contracts tuberculosis, but, having been to Asia significantly changes the probability of having tuberculosis.
+
+These parent relationships can be seen in the following directed acyclic graph, where the directed edges represent a parent-child relationship from parent to child.
+Click on a node to highlight its parents (green) and its preceding non-parents (red).
+
+```{r, echo=FALSE, message = FALSE}
+library(visNetwork)
+
+edges <- data.frame(
+  from = c("V","S","S","T","L","TC","TC","B"),
+  to   = c("T","B","L","TC","TC","X","D","D")
+)
+
+nodes <- data.frame(
+  id = c("V","S","T","L","TC","B","X","D"),
+  label = c("Visited Asia","Smoker","Tuberculosis","Lung Cancer",
+            "Tuberc. or Cancer","Bronchitis",
+            "Positive X-ray","Dyspnoea"),
+  x = c(0, 300, 10, 200, 200,400 , 0, 400),
+  y = c(0, 0, 100, 110, 300, 110, 300, 300),
+  fixed = TRUE,  
+  shape = "ellipse",
+  color= "skyblue"
+)
+
+visNetwork(nodes, edges, width ="105%") %>%
+  visEdges(arrows = "to") %>%
+  visPhysics(enabled = FALSE)%>%
+  visEvents(selectNode = "
+    function(nodes) {
+      const chosen = nodes.nodes[0];
+      const Nodes = this.body.data.nodes.get();
+      const Edges = this.body.data.edges.get();
+      const Order = ['V','S','T','L','B','TC','X','D'];
+      const chosenId = Order.indexOf(chosen);
+      const Parents = Edges
+        .filter(e => e.to === chosen)
+        .map(e => e.from);
+      const precedingnonparents = Order
+        .slice(0, chosenId)
+        .filter(n => !Parents.includes(n));
+      Nodes.forEach(function(node){
+        node.color = {background: 'darkgrey'};
+      });
+      Nodes.forEach(function(node){
+        if (Parents.includes(node.id)) {
+          node.color = {background: 'lightgreen'};
+        } else if (precedingnonparents.includes(node.id)) {
+          node.color = {background: 'red'};
+        }
+      });
+      this.body.data.nodes.update(Nodes);
+    }
+  ")
+```
+
+This shows the entire network of parent-child relationships and conditional irrelevances through the local Markov property.
+We can order the variables as:
+$$
+V<S<T<L<B<TC<X<D
+$$
+This ordering ensures all parents precede their children. This isn't unique and can be written in other ways.
+Using this and the local Markov property, the joint probability distribution factorises as:
+$$
+P(V,S,T,L,B,TC, X,D)= P(V)\times P(S)\times P(T\mid V)\times P(L\mid S)\times P(B\mid S)\times P(TC \mid T, C)\times P(X \mid TC)\times P(D \mid B,TC)
+$$
+Therefore, we only need to specify these 8 smaller conditional distributions to determine the full joint distribution. 
+Consider the variable D (Dyspnea):
+$$
+P(D\mid V,S,T,L,B,TC, X)= P(D\mid B, TC)
+$$
+Before using the local Markov property, we had 7 variables and $2^7$ possible configurations of the conditioning variables to consider to model for D. By using the local Markov property, we now only require information regarding bronchitis (B) and tuberculosis or cancer (TC). This reduces our outcomes to model down to 4.
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,13 @@
+name: "my-website"
+output_dir: "docs"
+navbar:
+  title: "Tutorial"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Group 1"
+      href: about.html
+    - text: "Group 2"
+      href: grouptwo.html
+    - text: "Group 3"
+      href: groupthree.html

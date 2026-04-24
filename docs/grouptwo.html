@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Group 2</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Tutorial</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">Group 1</a>
+</li>
+<li>
+  <a href="grouptwo.html">Group 2</a>
+</li>
+<li>
+  <a href="groupthree.html">Group 3</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Group 2</h1>
+
+</div>
+
+
+<style>
+body {
+  background-color: ;
+}
+</style>
+<p>A decision maker wants to model the joint probability distribution of
+n discrete random variables <span class="math display">\[
+X_1, X_2, \dots, X_n
+\]</span> Let variable <span class="math inline">\(X_i\)</span> have
+<span class="math inline">\(c_i\)</span> possible outcomes. Then, the
+total number of joint outcomes that need to be modelled is: <span
+class="math display">\[
+\prod_{i=1}^{n} c_i
+\]</span> As <span class="math inline">\(n\)</span> grows, the number of
+joint outcomes increases rapidly, making it unrealistic for the decision
+maker to model each outcome individually. To reduce complexity, we can
+determine conditional irrelevances using the local Markov property,
+which allow us to simplify the joint distribution.</p>
+<div id="conditional-irrelevance" class="section level3">
+<h3>Conditional irrelevance</h3>
+<p>We say that a variable <span class="math inline">\(X\)</span> is
+<strong>conditionally irrelevant</strong> to a set of variables <span
+class="math inline">\(Y\)</span>, given a set of variables <span
+class="math inline">\(Z\)</span>, if:</p>
+<p><span class="math display">\[
+P(X\mid Y, Z) = P(X\mid Z)
+\]</span> This is also written with the following notation: <span
+class="math display">\[
+X \perp\!\!\!\perp Y \mid Z
+\]</span> This means that once we know the values of <span
+class="math inline">\(Z\)</span>, knowing <span
+class="math inline">\(Y\)</span> doesn’t provide additional information
+about <span class="math inline">\(X\)</span>. By identifying conditional
+irrelevances between variables, we can reduce complexity by reducing the
+amount of outcomes we need to model.</p>
+</div>
+<div id="ordering-the-variables" class="section level3">
+<h3>Ordering the variables</h3>
+<p>Let the variables directly influencing <span
+class="math inline">\(X_i\)</span> be called the <strong>parent
+variables</strong> denoted as: <span class="math display">\[
+Pa(X_i)
+\]</span> We can order our random variables such that <span
+class="math inline">\(Pa(X_i)\)</span> precede <span
+class="math inline">\(X_i\)</span> in the ordering.</p>
+<p>For example, if the variables are ordered according to their
+subscripts: <span class="math display">\[
+X_1 &lt; X_2 &lt; \dots &lt; X_n
+\]</span> Then: <span class="math display">\[
+Pa(X_i)\subset \{X_1,\dots,X_{i-1}\}
+\]</span> This topological ordering is useful when factorising the joint
+probability distribution of our variables.</p>
+</div>
+<div id="the-local-markov-property" class="section level3">
+<h3>The Local Markov Property</h3>
+<p>We can construct our ordering to ensure the <strong>local Markov
+property</strong> holds:</p>
+<p><strong>Theorem (The local Markov property)</strong><br />
+Let <span class="math inline">\(X_1,\dots, X_n\)</span> be random
+variables with parent sets <span class="math inline">\(Pa(X_i)\)</span>.
+The local Markov property holds if, for all <span
+class="math inline">\(i \in \{1,\dots,n\}\)</span>: <span
+class="math display">\[
+P(X_i\mid X_1,\dots,X_{i-1})= P(X_i\mid Pa(X_i))
+\]</span> This means that, given the parent nodes of <span
+class="math inline">\(X_i\)</span>, all other preceding variables are
+conditionally irrelevant to <span
+class="math inline">\(X_i\)</span>.</p>
+</div>
+<div id="the-factorisation-theorem" class="section level3">
+<h3>The Factorisation Theorem</h3>
+<p>How does this help simplify the joint probability distribution? Let
+<span class="math inline">\(X_1, \dots, X_n\)</span> be ordered by their
+subscripts (<span class="math inline">\(X_1 &lt; X_2 &lt; ... &lt;
+X_n)\)</span>. Then, the joint probability distribution can be
+factorised as follows: <span class="math display">\[
+P(X_1, \dots, X_n) = P(X_1) \prod_{i=2}^{n} P(X_i \mid X_1, \dots,
+X_{i-1})
+\]</span> However, by the local Markov property, each <span
+class="math inline">\(X_i\)</span> is conditionally irrelevant to all
+preceding non-parent variables: <span class="math display">\[
+P(X_i\mid X_1,\dots,X_{i-1})= P(X_i\mid Pa(X_i))
+\]</span> Therefore, the joint distribution factorises as: <span
+class="math display">\[
+P(\mathbf{X}) = \prod_{i=1}^{n} P(X_i \mid Pa(X_i))
+\]</span> Instead of modelling the full joint distribution, we only need
+to model the smaller conditional distributions.</p>
+<p>Let <span class="math inline">\(Q_i\)</span> denote the subscripts of
+the variables in <span class="math inline">\(Pa(X_i)\)</span>. Then, for
+each conditional distribution, we only need to model <span
+class="math inline">\(\prod_{j\in Q_i} c_j\)</span> parent
+configurations rather than <span class="math inline">\(\prod_{j=1}^{i-1}
+c_j\)</span>, largely improving efficiency.</p>
+</div>
+<div id="example-the-asia-network" class="section level3">
+<h3>Example: The Asia network</h3>
+<p>A doctor wants to determine whether a patient has dyspnoea. Consider
+the following variables:</p>
+<ul>
+<li><strong>V</strong>: Visited Asia</li>
+<li><strong>S</strong>: Smoker<br />
+</li>
+<li><strong>T</strong>: Tuberculosis<br />
+</li>
+<li><strong>L</strong>: Lung Cancer<br />
+</li>
+<li><strong>B</strong>: Bronchitis<br />
+</li>
+<li><strong>TC</strong>: Tuberculosis or Cancer<br />
+</li>
+<li><strong>X</strong>: Positive X-ray<br />
+</li>
+<li><strong>D</strong>: Dyspnoea</li>
+</ul>
+<p>We can define the parents of each variable. These are typically
+provided by the decision maker:</p>
+<ul>
+<li><span class="math inline">\(Pa(V)= Pa(S) = \{\}\)</span></li>
+<li><span class="math inline">\(Pa(T)= \{V\}\)</span></li>
+<li><span class="math inline">\(Pa(L)= \{S\}\)</span></li>
+<li><span class="math inline">\(Pa(B)= \{S\}\)</span></li>
+<li><span class="math inline">\(Pa(TC)= \{T,L\}\)</span></li>
+<li><span class="math inline">\(Pa(X)= \{TC\}\)</span></li>
+<li><span class="math inline">\(Pa(D)= \{B, TC\}\)</span></li>
+</ul>
+<p>Note: A parent-child relationship doesn’t necessarily indicate
+causation, but reflects a strong influence on the probability
+distribution. For example, not everyone who visits Asia contracts
+tuberculosis, but, having been to Asia significantly changes the
+probability of having tuberculosis.</p>
+<p>These parent relationships can be seen in the following directed
+acyclic graph, where the directed edges represent a parent-child
+relationship from parent to child.</p>
+<p><img src="grouptwo_files/figure-html/unnamed-chunk-1-1.png" alt="" width="672" /></p>
+<p>This shows the entire network of parent-child relationships. We can
+order the variables as: <span class="math display">\[
+V&lt;S&lt;T&lt;L&lt;B&lt;TC&lt;X&lt;D
+\]</span> This ordering ensures all parents precede their children. This
+isn’t unique and can be written in other ways. Using this and the local
+Markov property, the joint probability distribution factorises as: <span
+class="math display">\[
+P(V,S,T,L,B,TC, X,D)= P(V)\times P(S)\times P(T\mid V)\times P(L\mid
+S)\times P(B\mid S)\times P(TC \mid T, C)\times P(X \mid TC)\times P(D
+\mid B,TC)
+\]</span> Therefore, we only need to specify these 8 smaller conditional
+distributions to determine the full joint distribution. Consider the
+variable D (Dyspnoea): <span class="math display">\[
+P(D\mid V,S,T,L,B,TC, X)= P(D\mid B, TC)
+\]</span> Before using the local Markov property, we had 7 variables and
+<span class="math inline">\(2^7\)</span> possible configurations of the
+conditioning variables to consider to model for D. By using the local
+Markov property, we now only require information regarding bronchitis
+(B) and tuberculosis or cancer (TC). This reduces our outcomes to model
+down to 4.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
