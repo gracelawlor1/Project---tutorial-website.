@@ -7,28 +7,26 @@ output:
 ---
 <style>
 body {
-  background-color: ;
+  background-color: lightgrey;
 }
 </style>
 A decision maker wants to model the joint probability distribution of n discrete random variables
-$$
-X_1, X_2, \dots, X_n
-$$
-Let variable \( X_i \) have \(c_i\) possible outcomes. Then, the total number of joint outcomes that need to be modelled is:
+$$X_1, X_2, \dots, X_n$$
+Let variable  \(X_i\)  have \(c_i\) possible outcomes. Then, the total number of joint outcomes that need to be modelled is:
 $$
 \prod_{i=1}^{n} c_i
 $$
-As \(n\) grows, the number of joint outcomes increases rapidly, making it unrealistic for the decision maker to model each outcome individually.
-To reduce complexity, we can determine conditional irrelevances using the local Markov property, which allow us to simplify the joint distribution.
+As n grows, the number of joint outcomes increases rapidly which makes it unrealistic for the decision maker to model each outcome individually.
+To reduce this complexity, we can determine conditional irrelevances using the local Markov property which allow us to simplify the joint distribution.
 
 
 ### Conditional irrelevance
-We say that a variable \(X\) is **conditionally irrelevant** to a set of variables \(Y\), given a set of variables \(Z\), if: 
+We say that a variable \(X\) is conditionally irrelevant to a set of variables \(Y\), given a set of variables \(Z\), if: 
 
 $$
-P(X\mid Y, Z) = P(X\mid Z)
+P(X \mid Y, Z) = P(X \mid Z)
 $$
-This is also written with the following notation:
+This is also often written with the following notation:
 $$
 X \perp\!\!\!\perp Y \mid Z
 $$
@@ -36,11 +34,11 @@ This means that once we know the values of \(Z\), knowing \(Y\) doesn't provide 
 By identifying conditional irrelevances between variables, we can reduce complexity by reducing the amount of outcomes we need to model.
 
 ### Ordering the variables
-Let the variables directly influencing \(X_i\) be called the **parent variables** denoted as:
+Let the variables directly influencing \(X_i\) be called the parent variables denoted by:
 $$
 Pa(X_i)
 $$
-We can order our random variables such that \(Pa(X_i)\) precede \(X_i\) in the ordering.
+We can order our random variables to ensure all \(Pa(X_i)\) precede \(X_i\) in the ordering.
 
 For example, if the variables are ordered according to their subscripts:
 $$
@@ -55,7 +53,7 @@ This topological ordering is useful when factorising the joint probability distr
 ### The Local Markov Property
 We can construct our ordering to ensure the **local Markov property** holds:
 
-**Theorem (The local Markov property)**    
+###Theorem (The local Markov property)###   
 Let $X_1,\dots, X_n$ be random variables with parent sets $Pa(X_i)$. 
 The local Markov property holds if, for all $i \in \{1,\dots,n\}$:
 $$
@@ -66,7 +64,7 @@ This means that, given the parent nodes of $X_i$, all other preceding variables 
 ### The Factorisation Theorem
 
 How does this help simplify the joint probability distribution?
-Let $X_1, \dots, X_n$ be ordered by their subscripts ($X_1 < X_2 < ... < X_n)$. Then, the joint probability distribution can be factorised as follows:
+Let $X_1, \dots, X_n$ be ordered by their subscripts (ie. $X_1 < X_2 < ... < X_n$). Then, the joint probability distribution can be factorised as follows:
 $$
 P(X_1, \dots, X_n) = P(X_1) \prod_{i=2}^{n} P(X_i \mid X_1, \dots, X_{i-1})
 $$
@@ -81,21 +79,21 @@ $$
 Instead of modelling the full joint distribution, we only need to model the smaller conditional distributions.
 
 Let $Q_i$ denote the subscripts of the variables in $Pa(X_i)$.
-Then, for each conditional distribution, we only need to model $\prod_{j\in Q_i} c_j$ parent configurations rather than $\prod_{j=1}^{i-1} c_j$, largely improving efficiency.
+Then, for each conditional distribution, we only need to model $\prod_{j\in Q_i} c_j$ parent combinations rather than $\prod_{j=1}^{i-1} c_j$, largely improving efficiency.
 
 ### Example: The Asia network
 A doctor wants to determine whether a patient has dyspnoea. Consider the following variables:
 
-- **V**: Visited Asia
-- **S**: Smoker  
-- **T**: Tuberculosis  
-- **L**: Lung Cancer  
-- **B**: Bronchitis  
-- **TC**: Tuberculosis or Cancer  
-- **X**: Positive X-ray  
-- **D**: Dyspnoea  
+- V: Visited Asia
+- S: Smoker  
+- T: Tuberculosis  
+- L: Lung Cancer  
+- B: Bronchitis  
+- TC: Tuberculosis or Cancer  
+- X: Positive X-ray 
+- D: Dyspnoea  
 
-We can define the parents of each variable. These are typically provided by the decision maker:
+Each variable is binary with the two outcomes: "Yes" or "No". We can define the parents of each variable. These are typically provided by the decision maker:
 
 - $Pa(V)= Pa(S) = \{\}$
 - $Pa(T)= \{V\}$
@@ -106,7 +104,6 @@ We can define the parents of each variable. These are typically provided by the 
 - $Pa(D)= \{B, TC\}$
 
 Note: A parent-child relationship doesn't necessarily indicate causation, but reflects a strong influence on the probability distribution. For example, not everyone who visits Asia contracts tuberculosis, but, having been to Asia significantly changes the probability of having tuberculosis.
-
 These parent relationships can be seen in the following directed acyclic graph, where the directed edges represent a parent-child relationship from parent to child.
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
@@ -144,8 +141,6 @@ ggplot(asia_tidy , aes(x = x, y = y, xend = xend, yend = yend)) +
   ggtitle("Asia Network")+
   theme(legend.position = "none")
 ```
-
-
 This shows the entire network of parent-child relationships.
 We can order the variables as:
 $$
@@ -154,7 +149,7 @@ $$
 This ordering ensures all parents precede their children. This isn't unique and can be written in other ways.
 Using this and the local Markov property, the joint probability distribution factorises as:
 $$
-P(V,S,T,L,B,TC, X,D)= P(V)\times P(S)\times P(T\mid V)\times P(L\mid S)\times P(B\mid S)\times P(TC \mid T, C)\times P(X \mid TC)\times P(D \mid B,TC)
+P(V,S,T,L,B,TC, X,D)= P(V)\times P(S)\times P(T\mid V)\times P(L\mid S)\times P(B\mid S)\times P(TC \mid T, L)\times P(X \mid TC)\times P(D \mid B,TC)
 $$
 Therefore, we only need to specify these 8 smaller conditional distributions to determine the full joint distribution. 
 Consider the variable D (Dyspnoea):
@@ -162,4 +157,6 @@ $$
 P(D\mid V,S,T,L,B,TC, X)= P(D\mid B, TC)
 $$
 Before using the local Markov property, we had 7 variables and $2^7$ possible configurations of the conditioning variables to consider to model for D. By using the local Markov property, we now only require information regarding bronchitis (B) and tuberculosis or cancer (TC). This reduces our outcomes to model down to 4.
+
+
 
